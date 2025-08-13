@@ -4,6 +4,8 @@ import com.booleanuk.helpers.ExerciseBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Exercise extends ExerciseBase {
     /*
@@ -48,7 +50,9 @@ public class Exercise extends ExerciseBase {
          in the createPerson method
      */
 
-
+    public String getValue(String key) {
+        return createPerson().get(key);
+    }
 
     /*
         TODO: 2. Create a method named hasKey that accepts two parameters:
@@ -58,7 +62,9 @@ public class Exercise extends ExerciseBase {
          in the provided HashMap
      */
 
-
+    public boolean hasKey(HashMap<String, String> map, String key) {
+        return map.containsKey(key);
+    }
 
     /*
         TODO: 3. Create a method named getValueOrDefault that accepts two parameters:
@@ -68,7 +74,9 @@ public class Exercise extends ExerciseBase {
          or -1 if the string provided is not a key in the HashMap
      */
 
-
+    public int getValueOrDefault(HashMap<String, Integer> map, String key) {
+        return map.getOrDefault(key, -1);
+    }
 
     /*
         TODO: 4. Complete the method below
@@ -90,12 +98,30 @@ public class Exercise extends ExerciseBase {
         map.put(96, "nice");
         // Write your code below this comment...
 
+        // Tested solving using stream:
+        ArrayList<String> foods = new ArrayList<>();
+        List<Integer> filteredNumbers =  numbers.stream().filter(i -> !(map.getOrDefault(i, "null").equals("null"))).toList();
 
+        for (Integer filteredNumber : filteredNumbers) {
+            foods.add(map.get(filteredNumber));
+        }
 
+        // "Normal" way of solving:
+//        for (int i = 0; i < numbers.size(); i++) {
+//            if (map.containsKey(numbers.get(i))) {
+//                foods.add(map.get(numbers.get(i)));
+//            }
+//        }
+
+        // Better way  of using streams found after googling
+        //        ArrayList<String> foods = numbers.stream()
+        //                .filter(map::containsKey)
+        //                .map(map::get)
+        //                .collect(Collectors.toCollection(ArrayList::new));
 
         // ...and above this comment
 
         // Change the return statement below to return your actual ArrayList
-        return new ArrayList<String>();
+        return foods;
     }
 }
